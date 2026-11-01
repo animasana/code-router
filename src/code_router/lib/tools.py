@@ -1,4 +1,12 @@
-from typesafe_sdk import Choice, TypeSafeClient
+from typesafe_sdk import Choice, TypeSafeClient, TypeSafeError
+
+__all__ = [
+    "DESCRIPTIONS",
+    "LANGUAGES",
+    "MIN_CONFIDENCE",
+    "TypeSafeError",
+    "detect_language",
+]
 
 LANGUAGES = [
     "python",

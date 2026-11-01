@@ -1,9 +1,7 @@
 import argparse
 
 from dotenv import load_dotenv
-from typesafe_sdk import TypeSafeError
-
-from .lib.tools import MIN_CONFIDENCE, detect_language
+from .lib.tools import MIN_CONFIDENCE, TypeSafeError, detect_language
 
 
 def main() -> None:
