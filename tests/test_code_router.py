@@ -6,6 +6,7 @@ import pytest
 from typesafe_sdk import TypeSafeError
 
 import code_router
+from code_router.lib import tools
 
 
 class FakeClient:
@@ -28,11 +29,11 @@ class FakeClient:
 
 @pytest.fixture
 def fake_client(monkeypatch):
-    """`code_router.TypeSafeClient()`가 가짜 클라이언트를 반환하도록 패치한다."""
+    """`tools.TypeSafeClient()`가 가짜 클라이언트를 반환하도록 패치한다."""
 
     def install(choice: str = "python", confidence: float = 0.99) -> FakeClient:
         client = FakeClient(choice, confidence)
-        monkeypatch.setattr(code_router, "TypeSafeClient", lambda: client)
+        monkeypatch.setattr(tools, "TypeSafeClient", lambda: client)
         return client
 
     return install
@@ -53,17 +54,17 @@ def run_main(monkeypatch, path) -> None:
 
 
 def test_languages_are_unique():
-    assert len(code_router.LANGUAGES) == len(set(code_router.LANGUAGES))
+    assert len(tools.LANGUAGES) == len(set(tools.LANGUAGES))
 
 
 def test_languages_include_fallback_labels():
     # 코드가 아닌 입력이 엉뚱한 언어로 분류되지 않도록 폴백 라벨이 필요하다.
-    assert "plaintext" in code_router.LANGUAGES
-    assert "other" in code_router.LANGUAGES
+    assert "plaintext" in tools.LANGUAGES
+    assert "other" in tools.LANGUAGES
 
 
 def test_descriptions_refer_to_known_languages():
-    assert set(code_router.DESCRIPTIONS) <= set(code_router.LANGUAGES)
+    assert set(tools.DESCRIPTIONS) <= set(tools.LANGUAGES)
 
 
 # --- detect_language ---
@@ -72,20 +73,20 @@ def test_descriptions_refer_to_known_languages():
 def test_detect_language_returns_choice_and_confidence(fake_client):
     fake_client("rust", 0.97)
 
-    assert code_router.detect_language("fn main() {}") == ("rust", 0.97)
+    assert tools.detect_language("fn main() {}") == ("rust", 0.97)
 
 
 def test_detect_language_sends_code_and_choice_question(fake_client):
     client = fake_client()
 
-    code_router.detect_language("print('hi')")
+    tools.detect_language("print('hi')")
 
     (call,) = client.calls
     assert call["state"] == {"code": "print('hi')"}
     question = call["questions"]["language"]
     assert question.type == "choice"
-    assert list(question.criteria) == code_router.LANGUAGES
-    assert question.criteria["plaintext"] == code_router.DESCRIPTIONS["plaintext"]
+    assert list(question.criteria) == tools.LANGUAGES
+    assert question.criteria["plaintext"] == tools.DESCRIPTIONS["plaintext"]
     assert question.criteria["python"] is None
 
 
@@ -117,7 +118,7 @@ def test_main_reports_uncertain_below_threshold(fake_client, monkeypatch, tmp_pa
 
 
 def test_main_accepts_exactly_min_confidence(fake_client, monkeypatch, tmp_path, capsys):
-    fake_client("go", code_router.MIN_CONFIDENCE)
+    fake_client("go", tools.MIN_CONFIDENCE)
     source = tmp_path / "main.go"
     source.write_text("package main", encoding="utf-8")
 
@@ -133,7 +134,7 @@ def test_main_exits_with_message_on_api_error(monkeypatch, tmp_path):
         def system_one(self, *args, **kwargs):
             raise TypeSafeError("boom")
 
-    monkeypatch.setattr(code_router, "TypeSafeClient", lambda: FailingClient("x", 0))
+    monkeypatch.setattr(tools, "TypeSafeClient", lambda: FailingClient("x", 0))
     source = tmp_path / "a.py"
     source.write_text("pass", encoding="utf-8")
 

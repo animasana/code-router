@@ -45,10 +45,10 @@ public class Main {
 
 ## 판별 가능한 언어
 
-python, javascript, typescript, java, kotlin, c, cpp, csharp, go, rust, ruby, php, swift, sql, html, css, shell, powershell, json, yaml, markdown, plaintext, other
+python, javascript, typescript, java, kotlin, ada, fortran, pascal, lisp, prolog, cobol, dart, objective-c, perl, c, cpp, csharp, go, rust, ruby, php, swift, sql, html, css, shell, powershell, json, yaml, markdown, plaintext, other
 
 `plaintext`는 코드가 아닌 일반 문장·자연어 텍스트입니다.
-목록은 `src/code_router/__init__.py`의 `LANGUAGES`에서 수정할 수 있습니다.
+목록은 `src/code_router/lib/tools.py`의 `LANGUAGES`에서 수정할 수 있습니다.
 
 ## 동작 방식
 
