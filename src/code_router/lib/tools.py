@@ -23,6 +23,14 @@ LANGUAGES = [
     "dart",
     "objective-c",
     "perl",
+    "visual-basic",
+    "classic-visual-basic",
+    "r",
+    "scratch",
+    "julia",
+    "matlab",
+    "sas",
+    "assembly",
     "c",
     "cpp",
     "csharp",
@@ -46,6 +54,11 @@ LANGUAGES = [
 
 # 이름만으로 모호한 선택지에 붙이는 설명.
 DESCRIPTIONS = {
+    "pascal": "Pascal 및 Delphi/Object Pascal",
+    "visual-basic": "Visual Basic .NET (VB.NET)",
+    "classic-visual-basic": "Visual Basic 6.0 이하의 클래식 VB (VBA·VBScript 포함)",
+    "scratch": "Scratch 블록 코딩 프로젝트 (텍스트로 표현된 형태 포함)",
+    "assembly": "어셈블리어 (x86, ARM 등)",
     "plaintext": "프로그래밍 언어나 데이터 형식이 아닌 일반 문장·자연어 텍스트",
     "other": "위 목록에 없는 프로그래밍 언어 또는 파일 형식",
 }
