@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Status
 
-`uv` project (`uv init --package`) with a single-module CLI in `src/code_router/__init__.py`. It reads a file and identifies its programming language via the TypeSafe API. `README.md` is written (Korean); there are no tests, linter, or formatter configured yet. Update this file as real architecture emerges.
+`uv` project (`uv init --package`) with a single-module CLI in `src/code_router/__init__.py`. It reads a file and identifies its programming language via the TypeSafe API. `README.md` is written (Korean); tests live in `tests/` (pytest); no linter or formatter is configured yet. Update this file as real architecture emerges.
 
 Remote: private GitHub repo `animasana/code-router`, default branch `main`.
 
@@ -27,6 +27,8 @@ Package/env management is `uv` (Python `>=3.15`, pinned in `.python-version`; bu
 - Install/sync deps: `uv sync`
 - Run the CLI entry point (`code-router = "code_router:main"`): `uv run code-router <file>` (makes a real API call, needs `TYPESAFE_API_KEY`)
 - Add a dependency: `uv add <pkg>`
+- Run tests: `uv run pytest` (the TypeSafe client is faked, so no API key or network is needed)
+- Add a dev dependency: `uv add --dev <pkg>`
 
 ## Configuration
 
