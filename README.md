@@ -45,8 +45,9 @@ public class Main {
 
 ## 판별 가능한 언어
 
-python, javascript, typescript, java, kotlin, c, cpp, csharp, go, rust, ruby, php, swift, sql, html, css, shell, powershell, json, yaml, markdown, other
+python, javascript, typescript, java, kotlin, c, cpp, csharp, go, rust, ruby, php, swift, sql, html, css, shell, powershell, json, yaml, markdown, plaintext, other
 
+`plaintext`는 코드가 아닌 일반 문장·자연어 텍스트입니다.
 목록은 `src/code_router/__init__.py`의 `LANGUAGES`에서 수정할 수 있습니다.
 
 ## 동작 방식
@@ -54,3 +55,4 @@ python, javascript, typescript, java, kotlin, c, cpp, csharp, go, rust, ruby, ph
 1. 인자로 받은 파일을 읽어 내용을 출력합니다.
 2. `TypeSafeClient.system_one()`에 코드를 `state`로, 언어 목록을 `criteria`로 갖는 `Choice` 질문을 보냅니다.
 3. 가장 확률이 높은 선택지와 그 신뢰도(`confidence`)를 출력합니다.
+   신뢰도가 60% 미만(`MIN_CONFIDENCE`)이면 `언어: 불확실 (가장 유력: ..., 신뢰도 ...)`로 표시합니다.

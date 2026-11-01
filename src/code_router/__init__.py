@@ -25,8 +25,19 @@ LANGUAGES = [
     "json",
     "yaml",
     "markdown",
+    "plaintext",
     "other",
 ]
+
+
+# 이름만으로 모호한 선택지에 붙이는 설명.
+DESCRIPTIONS = {
+    "plaintext": "프로그래밍 언어나 데이터 형식이 아닌 일반 문장·자연어 텍스트",
+    "other": "위 목록에 없는 프로그래밍 언어 또는 파일 형식",
+}
+
+# 신뢰도가 이 값보다 낮으면 판별 결과를 "불확실"로 표시한다.
+MIN_CONFIDENCE = 0.6
 
 
 def detect_language(code: str) -> tuple[str, float]:
@@ -37,7 +48,7 @@ def detect_language(code: str) -> tuple[str, float]:
             questions={
                 "language": Choice(
                     instructions="이 코드는 어떤 프로그래밍 언어(또는 파일 형식)로 작성되었는가?",
-                    criteria={lang: None for lang in LANGUAGES},
+                    criteria={lang: DESCRIPTIONS.get(lang) for lang in LANGUAGES},
                 ),
             },
         )
@@ -66,4 +77,7 @@ def main() -> None:
     except TypeSafeError as error:
         raise SystemExit(f"언어 판별 실패: {error}") from error
 
-    print(f"언어: {language} (신뢰도 {confidence:.0%})")
+    if confidence < MIN_CONFIDENCE:
+        print(f"언어: 불확실 (가장 유력: {language}, 신뢰도 {confidence:.0%})")
+    else:
+        print(f"언어: {language} (신뢰도 {confidence:.0%})")
