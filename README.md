@@ -56,3 +56,12 @@ python, javascript, typescript, java, kotlin, c, cpp, csharp, go, rust, ruby, ph
 2. `TypeSafeClient.system_one()`에 코드를 `state`로, 언어 목록을 `criteria`로 갖는 `Choice` 질문을 보냅니다.
 3. 가장 확률이 높은 선택지와 그 신뢰도(`confidence`)를 출력합니다.
    신뢰도가 60% 미만(`MIN_CONFIDENCE`)이면 `언어: 불확실 (가장 유력: ..., 신뢰도 ...)`로 표시합니다.
+
+## 테스트
+
+```
+uv run pytest
+```
+
+`TypeSafeClient`를 가짜로 대체하므로 API 키나 네트워크 없이 실행됩니다.
+언어 판별 로직, 출력 형식, 신뢰도 임계값 처리, API 오류 처리를 검증합니다.
